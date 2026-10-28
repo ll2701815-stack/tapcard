@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ru" class="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>TapCard — NFC-карточки для отзывов и QR-меню</title>
+<meta name="description" content="NFC-карточки и QR-таблички для ресторанов, кафе, отелей и салонов: отзывы в Google Maps и 2GIS, меню, соцсети, Wi-Fi. Конструктор и калькулятор цен.">
+<meta name="theme-color" content="#07070b"><meta property="og:title" content="TapCard — NFC-карточки для бизнеса"><meta property="og:description" content="Конструктор карточек, примеры моделей, тест «Проверь себя» и калькулятор цен.">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="css/tailwind.css">
+<link rel="stylesheet" href="css/style.css">
+<script>(function(){try{var v=localStorage.getItem('tc_theme');if(v==='light'||(!v&&matchMedia('(prefers-color-scheme: light)').matches))document.documentElement.classList.remove('dark')}catch(e){}})();</script>
+</head>
+<body>
+<div class="blob" style="width:420px;height:420px;background:#6366f1;top:-120px;left:-120px"></div>
+<div class="blob" style="width:380px;height:380px;background:#ec4899;bottom:-120px;right:-100px"></div>
+
+<header class="z-50 backdrop-blur-xl border-b border-zinc-500/20 bg-white/60 dark:bg-zinc-950/60">
+<div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between gap-3">
+<button onclick="tab('home')" class="font-extrabold text-xl">Tap<span class="gt">Card</span></button>
+<nav id="nav" class="hidden md:flex glass !rounded-full p-1 gap-1"></nav>
+<div class="flex items-center gap-2">
+<div class="hidden sm:flex gap-2"><a id="hTg" class="ib !w-9 !h-9" style="background:#229ed9" target="_blank" rel="noopener" aria-label="Telegram"></a><a id="hPh" class="ib !w-9 !h-9" style="background:#22c55e" aria-label="Phone"></a></div>
+<button class="btn !py-2 !px-4 text-sm hidden lg:inline-block g2" onclick="goOrder()" data-i18n="ob"></button>
+<button id="theme" class="w-9 h-9 rounded-full glass !rounded-full" aria-label="theme">🌙</button>
+<div id="langs" class="flex glass !rounded-full p-0.5 text-xs font-semibold"></div>
+</div>
+</div>
+</header>
+
+<main class="max-w-6xl mx-auto px-4 pt-8 pb-28 md:pb-12">
+
+<section id="home" class="tab">
+<div class="grid md:grid-cols-2 gap-10 items-center min-h-[60vh]">
+<div>
+<span class="chip" data-i18n="badge"></span>
+<h1 class="text-4xl md:text-6xl font-extrabold leading-tight mt-5" data-i18n="h1"></h1>
+<p class="mt-5 text-lg opacity-70" data-i18n="h2"></p>
+<div class="mt-8 flex flex-wrap gap-3"><button class="btn" onclick="tab('builder')" data-i18n="cta1"></button><button class="btn g2" onclick="goOrder()" data-i18n="ob"></button><button class="chip !py-3 !px-6" onclick="tab('builder');setTimeout(scan,300)" data-i18n="cta2"></button></div>
+</div>
+<div id="stack" class="relative mx-auto w-full max-w-[420px] h-[300px] sm:h-[340px] float"></div>
+</div>
+<div class="grid sm:grid-cols-3 gap-4 mt-10" id="feats"></div>
+<h3 class="text-2xl font-bold mt-14"><span class="gt" data-i18n="hw"></span></h3><div class="grid sm:grid-cols-3 gap-4 mt-4" id="steps"></div>
+<h3 class="text-2xl font-bold mt-14"><span class="gt" data-i18n="faq"></span></h3><div class="mt-4 space-y-3" id="faqs"></div>
+</section>
+
+<section id="builder" class="tab" hidden>
+<h2 class="text-3xl md:text-4xl font-extrabold"><span class="gt" data-i18n="bt"></span></h2>
+<div class="stage mt-6"><div class="relative grid md:grid-cols-[1fr_auto] gap-10 items-center max-w-3xl mx-auto">
+<div><div class="scene" id="scene"><div class="cq mx-auto max-w-[400px]"><div class="c3" id="card"><div class="face" id="fr"></div><div class="face back" id="bk"></div></div></div></div>
+<div class="flex justify-center items-center gap-3 mt-7 flex-wrap"><div class="seg"><button id="sF" data-i18n="fl"></button><button id="sB" data-i18n="bl"></button></div><button id="dl" class="chip" data-i18n="dl"></button></div>
+<p class="text-center text-xs opacity-60 mt-3" data-i18n="dn"></p></div>
+<div class="text-center"><div class="phone"><div id="scr" class="h-full"></div></div><button id="scan" class="btn mt-5" data-i18n="scan"></button></div>
+</div></div>
+<div class="grid md:grid-cols-3 gap-4 mt-6">
+<div class="glass p-5 space-y-4"><h3 class="font-bold flex items-center"><span class="stp">1</span><span data-i18n="s1"></span></h3><div class="flex flex-wrap gap-2" id="presets"></div><div class="flex flex-wrap gap-3 pt-1" id="mats"></div><div class="text-sm opacity-70" data-i18n="tpl"></div><div class="flex flex-wrap gap-2" id="tpls"></div></div>
+<div class="glass p-5 space-y-4 rv"><h3 class="font-bold flex items-center"><span class="stp">2</span><span data-i18n="s2"></span></h3><div class="flex flex-wrap gap-2" id="plats"></div><div class="text-sm opacity-70" data-i18n="lk"></div><div class="flex flex-wrap gap-2" id="lks"></div><div><label class="text-sm opacity-70" data-i18n="name"></label><input id="iName" class="inp mt-1" value="Casa Bella"></div><div><label class="text-sm opacity-70" data-i18n="urlq"></label><input id="iUrl" class="inp mt-1" placeholder="https://g.page/r/..."></div></div>
+<div class="glass p-5 space-y-3"><h3 class="font-bold flex items-center"><span class="stp">3</span><span data-i18n="s3"></span></h3><div><label class="text-sm opacity-70" data-i18n="front"></label><input id="iF" class="inp mt-1"></div><div><label class="text-sm opacity-70" data-i18n="back"></label><input id="iB" class="inp mt-1"></div><div><label class="text-sm opacity-70" data-i18n="logo"></label><input id="iLogo" type="file" accept="image/*" class="inp mt-1 text-sm"><div id="logoRow" class="hidden items-center gap-3 mt-2"><img id="logoTh" class="h-10 w-10 object-contain rounded-lg bg-white/90 p-1" alt=""><button id="logoDel" class="chip" data-i18n="ldel"></button></div></div></div>
+</div>
+</section>
+
+<section id="gallery" class="tab" hidden>
+<h2 class="text-3xl md:text-4xl font-extrabold"><span class="gt" data-i18n="gt"></span></h2><p class="opacity-70 mt-2" data-i18n="gs"></p>
+<div class="mt-5 flex flex-wrap gap-2" id="gf"></div>
+<p class="text-xs opacity-60 mt-4" data-i18n="zoom"></p>
+<div class="mt-3 grid grid-cols-1 min-[480px]:grid-cols-2 md:grid-cols-4 gap-4" id="grid"></div>
+</section>
+
+<section id="calc" class="tab max-w-5xl mx-auto" hidden>
+<h2 class="text-3xl md:text-4xl font-extrabold"><span class="gt" data-i18n="ct"></span></h2>
+<div class="grid md:grid-cols-2 gap-4 mt-6" id="tiers"></div>
+<div class="grid lg:grid-cols-5 gap-4 mt-4">
+<div class="glass p-6 lg:col-span-3">
+<div class="text-sm opacity-70" data-i18n="qty"></div>
+<div class="flex items-center justify-center gap-4 mt-3"><button id="minus" class="chip !w-12 !h-12 !p-0 text-2xl" aria-label="-">−</button><input id="num" type="number" min="1" max="500" value="5" class="inp !w-32 !text-4xl !font-extrabold text-center !bg-transparent"><button id="plus" class="chip !w-12 !h-12 !p-0 text-2xl" aria-label="+">+</button></div>
+<input id="rng" type="range" min="1" max="20" value="5" class="w-full mt-5 accent-violet-500">
+<div class="flex justify-between text-xs opacity-50"><span>1</span><span>10</span><span>20+</span></div>
+<div class="mt-4 text-sm opacity-70" data-i18n="qq"></div><div id="qk" class="flex flex-wrap gap-2 mt-2"></div>
+<div id="dots" class="flex flex-wrap gap-1.5 mt-5 min-h-[3rem]"></div>
+</div>
+<div class="glass p-6 lg:col-span-2" style="background:linear-gradient(160deg,rgba(99,102,241,.22),rgba(236,72,153,.16))">
+<div class="text-sm opacity-70" data-i18n="total"></div>
+<div class="flex items-end gap-2"><span id="tot" class="text-6xl font-extrabold gt">0</span><span class="opacity-70 pb-2">MDL</span></div>
+<div id="sum" class="space-y-2 mt-5 text-sm"></div>
+<div class="mt-3 text-xs opacity-60"><span data-i18n="eff"></span>: <b id="eff"></b></div>
+<button id="order" class="btn mt-5 w-full" data-i18n="order"></button>
+</div></div>
+</section>
+
+<section id="contacts" class="tab max-w-3xl mx-auto" hidden>
+<h2 class="text-3xl md:text-4xl font-extrabold text-center"><span class="gt" data-i18n="kt"></span></h2><p class="opacity-70 mt-2 text-center" data-i18n="ks"></p>
+<div id="ctiles" class="grid gap-3 mt-6"></div>
+<div class="glass p-6 mt-5 space-y-4 text-left">
+<h3 class="font-bold text-xl" data-i18n="ob"></h3>
+<div class="grid sm:grid-cols-2 gap-3">
+<div><label class="text-sm opacity-70"><span data-i18n="cn"></span> *</label><input id="oN" class="inp mt-1" autocomplete="name"></div>
+<div><label class="text-sm opacity-70"><span data-i18n="cp"></span> *</label><input id="oP" type="tel" class="inp mt-1" autocomplete="tel" placeholder="+373 ..."></div>
+<div><label class="text-sm opacity-70" data-i18n="ptl"></label><select id="oT" class="inp mt-1"><option value="1" data-i18n="pt1"></option><option value="2" data-i18n="pt2"></option><option value="3" data-i18n="pt3"></option><option value="4" data-i18n="pt4"></option><option value="5" data-i18n="pt5"></option></select></div>
+<div><label class="text-sm opacity-70" data-i18n="sz"></label><input id="oS" class="inp mt-1" data-ph="szph"></div>
+<div><label class="text-sm opacity-70" data-i18n="qt"></label><input id="oQ" type="number" min="1" max="500" class="inp mt-1" value="5"></div>
+</div>
+<div><label class="text-sm opacity-70" data-i18n="wsh"></label><textarea id="oC" rows="3" class="inp mt-1"></textarea></div>
+<details class="text-sm"><summary class="cursor-pointer opacity-80" data-i18n="op"></summary><textarea id="ord" rows="10" class="inp mt-2 text-xs" readonly></textarea></details>
+<div class="flex flex-wrap gap-3 items-center"><button id="sTg" class="btn inline-flex items-center gap-2"><span class="inline-block w-5 h-5" id="sTgi"></span>Telegram</button><a id="sMl" class="chip !py-3 !px-6 inline-flex items-center gap-2"><span class="inline-block w-4 h-4" id="sMli"></span>Email</a><button id="sCp" class="chip !py-3 !px-6" data-i18n="cpy"></button></div>
+<div id="err" class="text-sm text-red-500 min-h-[1.2rem]" role="alert"></div><div id="toast" class="text-sm text-emerald-500" role="status"></div>
+<p class="text-xs opacity-60" data-i18n="nt"></p>
+</div>
+</section>
+</main>
+<footer class="relative z-10 border-t border-zinc-500/20 mt-8"><div class="max-w-6xl mx-auto px-4 py-8 grid sm:grid-cols-3 gap-6 text-sm">
+<div><div class="font-extrabold text-lg">Tap<span class="gt">Card</span></div><p class="opacity-60 mt-2" data-i18n="fts"></p></div>
+<div class="flex flex-col items-start gap-1.5" id="fnav"></div>
+<div class="flex flex-col items-start gap-2" id="fct"></div>
+</div><div class="text-center text-xs opacity-50 pb-28 md:pb-6" data-i18n="ftx"></div></footer>
+
+
+<nav id="bnav" class="md:hidden fixed bottom-0 inset-x-0 z-50 flex backdrop-blur-xl bg-white/80 dark:bg-zinc-950/80 border-t border-zinc-500/20" style="padding-bottom:env(safe-area-inset-bottom,0px)"></nav>
+<div id="modal" class="fixed inset-0 z-[70] hidden items-center justify-center p-4"><div class="glass bg-zinc-900 text-white max-w-md w-full p-5 max-h-[90vh] overflow-auto" id="mbox"></div></div>
+
+<script src="js/vendor/qrcode.js"></script>
+<script src="js/config.js"></script>
+<script src="js/i18n.js"></script>
+<script src="js/app.js"></script>
+<script src="js/boot.js"></script>
+</body>
+</html>
